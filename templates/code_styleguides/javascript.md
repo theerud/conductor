@@ -1,51 +1,33 @@
-# Google JavaScript Style Guide Summary
+# Neostandard JavaScript Style Summary
 
-This document summarizes key rules and best practices from the Google JavaScript Style Guide.
+This aligns with the `neostandard` ESLint preset (Standard.js successor). Defaults are “no semicolons”, ES modules, and JSX support included.
 
-## 1. Source File Basics
-- **File Naming:** All lowercase, with underscores (`_`) or dashes (`-`). Extension must be `.js`.
-- **File Encoding:** UTF-8.
-- **Whitespace:** Use only ASCII horizontal spaces (0x20). Tabs are forbidden for indentation.
+## Source files
+- File names lowercase with underscores or dashes; `.js` extension; UTF-8; indent with spaces (ASCII 0x20).
+- Prefer ES modules for all new code.
 
-## 2. Source File Structure
-- New files should be ES modules (`import`/`export`).
-- **Exports:** Use named exports (`export {MyClass};`). **Do not use default exports.**
-- **Imports:** Do not use line-wrapped imports. The `.js` extension in import paths is mandatory.
+## Formatting
+- 2-space indentation; tabs forbidden. One blank line between top-level blocks; no trailing whitespace.
+- Brace style 1TBS; braces required for multi-line blocks, single-line control statements may omit braces.
+- No semicolons (ASI allowed).
+- Single quotes preferred; template literals for interpolation/multi-line. Object literals use spaced braces (`{ foo: 1 }`). Space before function parens.
+- Trailing commas are not enforced (comma-dangle is ignored/warn). No hard column limit.
 
-## 3. Formatting
-- **Braces:** Required for all control structures (`if`, `for`, `while`, etc.), even single-line blocks. Use K&R style ("Egyptian brackets").
-- **Indentation:** +2 spaces for each new block.
-- **Semicolons:** Every statement must be terminated with a semicolon.
-- **Column Limit:** 80 characters.
-- **Line-wrapping:** Indent continuation lines at least +4 spaces.
-- **Whitespace:** Use single blank lines between methods. No trailing whitespace.
+## Modules, imports, exports
+- ES modules (`import`/`export`). Default exports are allowed. Imports/exports must not duplicate names; no absolute paths without config.
+- JSX output: components in `PascalCase`, boolean props shorthand (`<Comp disabled />`), fragment shorthand (`<>...</>`), keys on list/fragment items, no duplicate props, avoid `target="_blank"` without `rel` handling. Prefer single quotes in JSX, self-close empty tags, wrap multi-line JSX in parens, align closing tags/brackets, 2-space indent for JSX props.
 
-## 4. Language Features
-- **Variable Declarations:** Use `const` by default, `let` if reassignment is needed. **`var` is forbidden.**
-- **Array Literals:** Use trailing commas. Do not use the `Array` constructor.
-- **Object Literals:** Use trailing commas and shorthand properties. Do not use the `Object` constructor.
-- **Classes:** Do not use JavaScript getter/setter properties (`get name()`). Provide ordinary methods instead.
-- **Functions:** Prefer arrow functions for nested functions to preserve `this` context.
-- **String Literals:** Use single quotes (`'`). Use template literals (`` ` ``) for multi-line strings or complex interpolation.
-- **Control Structures:** Prefer `for-of` loops. `for-in` loops should only be used on dict-style objects.
-- **`this`:** Only use `this` in class constructors, methods, or in arrow functions defined within them.
-- **Equality Checks:** Always use identity operators (`===` / `!==`).
+## Language features
+- Prefer `const`; `let` when reassignment is needed. `var` discouraged (`no-var` warns). Use shorthand properties.
+- Equality: `===`/`!==` required. Avoid unused vars (`no-unused-vars` errors, but ignores unused args).
+- Style allows getter/setter syntax, arrow functions, and class fields. No rules against `this` usage beyond standard errors.
 
-## 5. Disallowed Features
-- `with` keyword.
-- `eval()` or `Function(...string)`.
-- Automatic Semicolon Insertion.
-- Modifying builtin objects (`Array.prototype.foo = ...`).
+## Naming
+- Classes: `UpperCamelCase`; functions/methods/variables: `lowerCamelCase`; constants: `CONSTANT_CASE`.
 
-## 6. Naming
-- **Classes:** `UpperCamelCase`.
-- **Methods & Functions:** `lowerCamelCase`.
-- **Constants:** `CONSTANT_CASE` (all uppercase with underscores).
-- **Non-constant Fields & Variables:** `lowerCamelCase`.
+## Disallowed/problematic patterns
+- `with`, `eval()`/`new Function`, extending built-ins, duplicate definitions, shadowing restricted names, unused expressions without intent, unreachable code, and most unsafe constructs are errors.
+- Node-specific pitfalls flagged (deprecated APIs, callback errors, path concat). Many are `error`, `n/no-deprecated-api` is `warn`.
 
-## 7. JSDoc
-- JSDoc is used on all classes, fields, and methods.
-- Use `@param`, `@return`, `@override`, `@deprecated`.
-- Type annotations are enclosed in braces (e.g., `/** @param {string} userName */`).
-
-*Source: [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html)*
+## Comments and docs
+- JSDoc recommended for public classes, methods, and exports; not enforced by neostandard. Use `@param`, `@returns`, `@deprecated`, `@override` as needed. Keep line comments spaced (`// comment`).

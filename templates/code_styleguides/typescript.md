@@ -1,43 +1,33 @@
-# Google TypeScript Style Guide Summary
+# Neostandard TypeScript Style Summary
 
-This document summarizes key rules and best practices from the Google TypeScript Style Guide, which is enforced by the `gts` tool.
+Use `neostandard({ ts: true })` to apply the TypeScript-aware config (Standard.js successor). Defaults are “no semicolons”, ES modules, and JSX support included unless `noJsx: true` is set.
 
-## 1. Language Features
-- **Variable Declarations:** Always use `const` or `let`. **`var` is forbidden.** Use `const` by default.
-- **Modules:** Use ES6 modules (`import`/`export`). **Do not use `namespace`.**
-- **Exports:** Use named exports (`export {MyClass};`). **Do not use default exports.**
-- **Classes:**
-  - **Do not use `#private` fields.** Use TypeScript's `private` visibility modifier.
-  - Mark properties never reassigned outside the constructor with `readonly`.
-  - **Never use the `public` modifier** (it's the default). Restrict visibility with `private` or `protected` where possible.
-- **Functions:** Prefer function declarations for named functions. Use arrow functions for anonymous functions/callbacks.
-- **String Literals:** Use single quotes (`'`). Use template literals (`` ` ``) for interpolation and multi-line strings.
-- **Equality Checks:** Always use triple equals (`===`) and not equals (`!==`).
-- **Type Assertions:** **Avoid type assertions (`x as SomeType`) and non-nullability assertions (`y!`)**. If you must use them, provide a clear justification.
+## Source files
+- File names lowercase with underscores or dashes; `.ts` (or `.tsx`) extension; UTF-8; indent with spaces (ASCII 0x20).
+- Prefer ES modules for all new code.
 
-## 2. Disallowed Features
-- **`any` Type:** **Avoid `any`**. Prefer `unknown` or a more specific type.
-- **Wrapper Objects:** Do not instantiate `String`, `Boolean`, or `Number` wrapper classes.
-- **Automatic Semicolon Insertion (ASI):** Do not rely on it. **Explicitly end all statements with a semicolon.**
-- **`const enum`:** Do not use `const enum`. Use plain `enum` instead.
-- **`eval()` and `Function(...string)`:** Forbidden.
+## Formatting
+- 2-space indentation; tabs forbidden. One blank line between top-level blocks; no trailing whitespace.
+- Brace style 1TBS; braces required for multi-line blocks, single-line control statements may omit braces.
+- No semicolons (ASI allowed).
+- Single quotes preferred; template literals for interpolation/multi-line. Object literals use spaced braces. Space before function parens.
+- Trailing commas are not enforced; no column limit.
 
-## 3. Naming
-- **`UpperCamelCase`:** For classes, interfaces, types, enums, and decorators.
-- **`lowerCamelCase`:** For variables, parameters, functions, methods, and properties.
-- **`CONSTANT_CASE`:** For global constant values, including enum values.
-- **`_` Prefix/Suffix:** **Do not use `_` as a prefix or suffix** for identifiers, including for private properties.
+## Modules, imports, exports
+- ES modules (`import`/`export`). Default exports are allowed. Import/exports must not duplicate names; no absolute paths without config.
+- JSX output: components in `PascalCase`, boolean props shorthand (`<Comp disabled />`), fragment shorthand (`<>...</>`), keys on list/fragment items, no duplicate props, avoid `target="_blank"` without `rel` handling. Prefer single quotes in JSX, self-close empty tags, wrap multi-line JSX in parens, align closing tags/brackets, 2-space indent for JSX props.
 
-## 4. Type System
-- **Type Inference:** Rely on type inference for simple, obvious types. Be explicit for complex types.
-- **`undefined` and `null`:** Both are supported. Be consistent within your project.
-- **Optional vs. `|undefined`:** Prefer optional parameters and fields (`?`) over adding `|undefined` to the type.
-- **`Array<T>` Type:** Use `T[]` for simple types. Use `Array<T>` for more complex union types (e.g., `Array<string | number>`).
-- **`{}` Type:** **Do not use `{}`**. Prefer `unknown`, `Record<string, unknown>`, or `object`.
+## Language features and typing
+- Prefer `const`; `let` when reassignment is needed. `var` discouraged (`no-var` warns). Shorthand properties encouraged.
+- TypeScript-aware rules replace redundant JS checks; otherwise the JS rule set applies with TS equivalents.
+- No built-in ban on `any`, `type assertions`, `non-null assertions`, `const enum`, `{}` types, or optional-vs-`|undefined` choices—use project policy if stricter behavior is desired.
+- Equality: `===`/`!==` required. Unused variables error, but unused args are allowed.
 
-## 5. Comments and Documentation
-- **JSDoc:** Use `/** JSDoc */` for documentation, `//` for implementation comments.
-- **Redundancy:** **Do not declare types in `@param` or `@return` blocks** (e.g., `/** @param {string} user */`). This is redundant in TypeScript.
-- **Add Information:** Comments must add information, not just restate the code.
+## Naming
+- Classes/interfaces/types/enums/decorators: `UpperCamelCase`; variables/params/functions/methods/properties: `lowerCamelCase`; constants (including enum values): `CONSTANT_CASE`.
 
-*Source: [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html)*
+## Disallowed/problematic patterns
+- Same as JS baseline: `with`, `eval()`/`new Function`, extending built-ins, duplicate definitions, unsafe/unused code, and common Node pitfalls. `n/no-deprecated-api` is `warn`.
+
+## Comments and docs
+- JSDoc recommended for public classes, methods, and exports; not enforced by neostandard. Avoid redundant type tags; use `@param`, `@returns`, `@deprecated`, `@override` where helpful. Keep line comments spaced (`// comment`).
