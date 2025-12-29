@@ -8,6 +8,7 @@
 4. **High Code Coverage:** Aim for >80% code coverage for all modules
 5. **User Experience First:** Every decision should prioritize user experience
 6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
+7. **Separate Conductor commits:** Keep `conductor/` artifacts out of code commits; update them in their own commits.
 
 ## Task Workflow
 
@@ -45,9 +46,11 @@ All tasks follow a strict lifecycle:
    - Resume implementation
 
 8. **Commit Code Changes:**
-   - Stage all code changes related to the task.
+   - Stage only application code (exclude `conductor/`).
+   - **Guard:** If any staged path starts with `conductor/`, unstage it and halt; fix staging before retrying the commit step.
    - Propose a clear, concise commit message e.g, `feat(ui): Create basic HTML structure for calculator`.
    - Perform the commit.
+   - Ensure the index is clean before continuing (`git status --porcelain` should show no staged entries).
 
 9. **Attach Task Summary with Git Notes:**
    - **Step 9.1: Get Commit Hash:** Obtain the hash of the *just-completed commit* (`git log -1 --format="%H"`).
@@ -63,8 +66,10 @@ All tasks follow a strict lifecycle:
     - **Step 10.2: Write Plan:** Write the updated content back to `plan.md`.
 
 11. **Commit Plan Update:**
+    - **Guard:** Before committing, ensure only `conductor/` artifacts are staged; if other files are staged, unstage them and halt until staging is clean.
     - **Action:** Stage the modified `plan.md` file.
     - **Action:** Commit this change with a descriptive message (e.g., `conductor(plan): Mark task 'Create user model' as complete`).
+    - Confirm the index is clean (`git status --porcelain` should be empty) before proceeding.
 
 ### Phase Completion Verification and Checkpointing Protocol
 
@@ -116,7 +121,7 @@ All tasks follow a strict lifecycle:
     -   **PAUSE** and await the user's response. Do not proceed without an explicit yes or confirmation.
 
 6.  **Create Checkpoint Commit:**
-    -   Stage all changes. If no changes occurred in this step, proceed with an empty commit.
+    -   Stage only verification artifacts and `conductor/` updates (avoid application code). If no changes occurred in this step, proceed with an empty commit.
     -   Perform the commit with a clear and concise message (e.g., `conductor(checkpoint): Checkpoint end of Phase X`).
 
 7.  **Attach Auditable Verification Report using Git Notes:**
