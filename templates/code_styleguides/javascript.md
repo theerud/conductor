@@ -30,4 +30,4 @@ This aligns with the `neostandard` ESLint preset (Standard.js successor). Defaul
 - Node-specific pitfalls flagged (deprecated APIs, callback errors, path concat). Many are `error`, `n/no-deprecated-api` is `warn`.
 
 ## Comments and docs
-- JSDoc recommended for public classes, methods, and exports; not enforced by neostandard. Use `@param`, `@returns`, `@deprecated`, `@override` as needed. Keep line comments spaced (`// comment`).
+- JSDoc recommended for public classes, methods, and exports; not enforced by neostandard. Use `@param`, `@returns`, `@deprecated`, `@override` as needed. Keep line comments spaced (`// comment`). Type annotations are enclosed in braces (e.g., `/** @param {string} userName */`).

@@ -30,4 +30,4 @@ Use `neostandard({ ts: true })` to apply the TypeScript-aware config (Standard.j
 - Same as JS baseline: `with`, `eval()`/`new Function`, extending built-ins, duplicate definitions, unsafe/unused code, and common Node pitfalls. `n/no-deprecated-api` is `warn`.
 
 ## Comments and docs
-- JSDoc recommended for public classes, methods, and exports; not enforced by neostandard. Avoid redundant type tags; use `@param`, `@returns`, `@deprecated`, `@override` where helpful. Keep line comments spaced (`// comment`).
+- JSDoc recommended for public classes, methods, and exports; not enforced by neostandard. Avoid redundant type tags; use `@param`, `@returns`, `@deprecated`, `@override` where helpful. Keep line comments spaced (`// comment`). Type annotations are enclosed in braces (e.g., `/** @param {string} userName */`).
